@@ -10,6 +10,7 @@ import {
   AccordionPanel,
   Box,
   Button,
+  Flex,
   Icon,
   Text,
 } from "@chakra-ui/react";
@@ -38,18 +39,30 @@ export const Sidebar: FC<Props> = (props) => {
       h={"100%"}
       maxH={"100dvh"}
       bg={scssVariables.primary}
-      p={{ base: "8px", sm: "8px", md: "20px", xl: "20px" }}
+      p={{ base: "8px", sm: "8px", md: "10px 20px 20px", xl: "10px 20px 20px" }}
       boxShadow={"0px 4px 4px rgba(0, 0, 0, 0.10)"}
     >
-      <Text
-        color={"whitesmoke"}
-        fontSize={{ base: "0", sm: "13px", md: "20px", xl: "20px" }}
-        fontWeight={500}
-        textAlign={"center"}
+      <Flex
+        flexDirection={"column"}
+        alignItems={"center"}
         mb={{ sm: "10px", md: "20px", xl: "20px" }}
       >
-        Махалла уюшмаси
-      </Text>
+        <img
+          src="/logoZip.webp"
+          alt="logo"
+          loading="lazy"
+          width={74}
+          height={74}
+        />
+        <Text
+          color={"whitesmoke"}
+          fontSize={{ base: "0", sm: "13px", md: "16px", xl: "16px" }}
+          fontWeight={500}
+          textAlign={"center"}
+        >
+          Ўзбекистон маҳаллалари уюшмаси
+        </Text>
+      </Flex>
       <Box
         display={"flex"}
         flexDirection={"column"}
