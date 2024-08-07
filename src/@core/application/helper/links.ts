@@ -15,13 +15,13 @@ export const adminlinks = [
     subMenu: [
       {
         id: 11,
-        title: "Мурожаат қолдириш",
+        title: "Мурожаат яратиш",
         href: "/callcenter/leaveRequest",
         icon: Minus,
       },
       {
         id: 12,
-        title: "Мурожаатлар",
+        title: "Мурожаатлар базаси",
         href: "/callcenter/requests",
         icon: Minus,
       },
@@ -90,13 +90,13 @@ export const userlinks = [
     subMenu: [
       {
         id: 11,
-        title: "Мурожаат қолдириш",
+        title: "Мурожаат яратиш",
         href: "/callcenter/leaveRequest",
         icon: Minus,
       },
       {
         id: 12,
-        title: "Мурожаатлар",
+        title: "Мурожаатлар базаси",
         href: "/callcenter/requests",
         icon: Minus,
       },

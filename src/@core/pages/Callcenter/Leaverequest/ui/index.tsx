@@ -80,6 +80,7 @@ export const Leaverequest = () => {
   } = useForm();
   const router = useRouter();
   const [data, setData] = useState<any>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   // BTNS
   const handleButtons = useCallback(() => {
@@ -93,6 +94,7 @@ export const Leaverequest = () => {
             gap={"8px"}
           >
             <Button
+              isLoading={loading}
               id="save"
               sx={buttonStyle}
               onClick={handleSubmit(handleEdit)}
@@ -120,12 +122,14 @@ export const Leaverequest = () => {
               }}
               onClick={handleSubmit(handleEditDraft)}
               variant={"outline"}
+              isLoading={loading}
             >
               Қоралама сақлаш
             </Button>
             <Button
               id="save"
               sx={buttonStyle}
+              isLoading={loading}
               onClick={handleSubmit(handleEdit)}
             >
               Сақлаш
@@ -152,6 +156,7 @@ export const Leaverequest = () => {
             }}
             onClick={handleSubmit(handleCreateDraft)}
             variant={"outline"}
+            isLoading={loading}
           >
             Қоралама сақлаш
           </Button>
@@ -159,6 +164,7 @@ export const Leaverequest = () => {
             id="save"
             sx={buttonStyle}
             onClick={handleSubmit(handleCreate)}
+            isLoading={loading}
           >
             Сақлаш
           </Button>
@@ -171,39 +177,51 @@ export const Leaverequest = () => {
 
   // CREATE
   const handleCreate = async (values: any) => {
+    setLoading(true);
     const data = await create({ ...values, IsDraf: "false" });
+    if (data?.status === 400 || data?.status === 500) return setLoading(false);
     data?.status === 201 &&
       (toast.success("Success", { position: "bottom-right" }),
+      setLoading(false),
       reset(),
       router.push("/callcenter/requests"));
   };
   // CREATE-DRAFT
   const handleCreateDraft = async (values: any) => {
+    setLoading(true);
     const data = await createDraft({ ...values, IsDraf: "true" });
+    if (data?.status === 400 || data?.status === 500) return setLoading(false);
     data?.status === 201 &&
       (toast.success("Success", { position: "bottom-right" }),
+      setLoading(false),
       reset(),
       router.push("/callcenter/drafts"));
   };
   // EDIT
   const handleEdit = async (values: any) => {
+    setLoading(true);
     const data = await edit(
       { ...values, IsDraf: "false" },
       params.get("edit") as string
     );
+    if (data?.status === 400 || data?.status === 500) return setLoading(false);
     data?.status === 204 &&
       (toast.success("Success", { position: "bottom-right" }),
+      setLoading(false),
       reset(),
       router.push("/callcenter/requests"));
   };
   // EDIT-DRAFT
   const handleEditDraft = async (values: any) => {
+    setLoading(true);
     const data = await editDraft(
       { ...values, IsDraf: "true" },
       params.get("edit") as string
     );
+    if (data?.status === 400 || data?.status === 500) return setLoading(false);
     data?.status === 204 &&
       (toast.success("Success", { position: "bottom-right" }),
+      setLoading(false),
       reset(),
       router.push("/callcenter/drafts"));
   };
@@ -248,6 +266,12 @@ export const Leaverequest = () => {
         setData(res?.data);
         res?.data.map((item: any) => {
           return reset({
+            operator_number: item?.operator_number,
+            gender: item?.gender,
+            additional_phone: item?.additional_phone,
+            applicant_birthday: item?.applicant_birthday,
+            mfy: item?.mfy,
+            street_and_apartment: item?.street_and_apartment,
             region: item.districts?.region?.id,
             district_id: item.districts?.id,
             IsDraf: item.IsDraf,
@@ -271,23 +295,27 @@ export const Leaverequest = () => {
       });
     } else {
       reset({
+        operator_number: "",
+        gender: "",
+        additional_phone: "",
+        applicant_birthday: "",
+        mfy: "",
+        street_and_apartment: "",
         region: null,
         district_id: null,
         IsDraf: "",
-        organization_name: "",
-        organization_type: "",
-        application_type: "",
+        organization_type: "null",
+        application_type: "null",
         applicant: "",
         phone: "",
         comment: "",
-        resend_application: "",
+        resend_application: "null",
         sub_category_id: null,
         category_org: null,
-        income_date: "",
         id: "",
         perform_date: "",
         performer: "",
-        response: "",
+        response: "null",
         sended_to_organizations: "null",
       });
     }
@@ -311,6 +339,101 @@ export const Leaverequest = () => {
         </Text>
         <Box p={{ base: "5px", sm: "5px", md: "16px", xl: " 16px" }}>
           <form id="application-form">
+            <FormControl isInvalid={!!errors.applicant}>
+              <FormLabel htmlFor="applicant" sx={labelStyle}>
+                Мурожаатчи
+              </FormLabel>
+              <Input
+                sx={inputStyle}
+                id="applicant"
+                placeholder="Азизов Азиз Азизович"
+                type="text"
+                {...register("applicant", { required: true })}
+              />
+              <FormErrorMessage
+                color={"red.300"}
+                fontSize={scssVariables.fonts.span}
+              >
+                мажбурий катак
+              </FormErrorMessage>
+            </FormControl>
+            <FormControl isInvalid={!!errors.applicant_birthday}>
+              <FormLabel htmlFor="applicant_birthday" sx={labelStyle}>
+                Мурожаатчининг туғилган санаси
+              </FormLabel>
+              <Input
+                sx={inputStyle}
+                id="applicant_birthday"
+                type="date"
+                {...register("applicant_birthday", { required: true })}
+              />
+              <FormErrorMessage
+                color={"red.300"}
+                fontSize={scssVariables.fonts.span}
+              >
+                мажбурий катак
+              </FormErrorMessage>
+            </FormControl>
+            <FormControl isInvalid={!!errors.gender}>
+              <FormLabel htmlFor="gender" sx={labelStyle}>
+                Жинси
+              </FormLabel>
+              <Select
+                sx={selectStyle}
+                id="gender"
+                {...register("gender", { required: true })}
+              >
+                <option value="">Танланг</option>
+                <option value="male">Эркак</option>
+                <option value="female">Аёл</option>
+              </Select>
+              <FormErrorMessage
+                color={"red.300"}
+                fontSize={scssVariables.fonts.span}
+              >
+                мажбурий катак
+              </FormErrorMessage>
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="phone" sx={labelStyle}>
+                Телефон рақам
+              </FormLabel>
+              <Controller
+                name="phone"
+                control={control}
+                render={({ field }) => (
+                  <Input
+                    sx={inputStyle}
+                    as={InputMask}
+                    mask="+(999)99 999-99-99"
+                    maskChar=""
+                    value={field.value}
+                    onChange={field.onChange}
+                    placeholder="+(999)99 999-99-99"
+                  />
+                )}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="additional_phone" sx={labelStyle}>
+                Қўшимча телефон рақам
+              </FormLabel>
+              <Controller
+                name="additional_phone"
+                control={control}
+                render={({ field }) => (
+                  <Input
+                    sx={inputStyle}
+                    as={InputMask}
+                    mask="+(999)99 999-99-99"
+                    maskChar=""
+                    value={field.value}
+                    onChange={field.onChange}
+                    placeholder="+(999)99 999-99-99"
+                  />
+                )}
+              />
+            </FormControl>
             <FormControl isInvalid={!!errors.region}>
               <FormLabel htmlFor="region" sx={labelStyle}>
                 Вилоят
@@ -329,7 +452,6 @@ export const Leaverequest = () => {
                 ]}
                 onChange={handleChangeRegion}
               />
-
               <FormErrorMessage
                 color={"red.300"}
                 fontSize={scssVariables.fonts.span}
@@ -362,16 +484,30 @@ export const Leaverequest = () => {
               </FormErrorMessage>
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="income_date" sx={labelStyle}>
-                Келиб тушган вақти (рўйхатга олинган сана)
+              <FormLabel htmlFor="mfy" sx={labelStyle}>
+                Махалла (МФЙ-ҚФЙ-ОФЙ)
               </FormLabel>
               <Input
                 sx={inputStyle}
-                id="income_date"
-                type="date"
-                {...register("income_date")}
+                id="mfy"
+                type="text"
+                placeholder="Боғ-кўча МФЙ"
+                {...register("mfy")}
               />
             </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="street_and_apartment" sx={labelStyle}>
+                Кўча ва уй
+              </FormLabel>
+              <Input
+                sx={inputStyle}
+                placeholder="Миришкор кўчаси, 8-уй"
+                id="street_and_apartment"
+                type="text"
+                {...register("street_and_apartment")}
+              />
+            </FormControl>
+
             <FormControl>
               <FormLabel htmlFor="organization_type" sx={labelStyle}>
                 Юридик / Жисмоний шахс
@@ -392,37 +528,7 @@ export const Leaverequest = () => {
                 ))}
               </Select>
             </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="applicant" sx={labelStyle}>
-                Мурожаатчи
-              </FormLabel>
-              <Input
-                sx={inputStyle}
-                id="applicant"
-                type="text"
-                {...register("applicant")}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="phone" sx={labelStyle}>
-                Телефон рақам
-              </FormLabel>
-              <Controller
-                name="phone"
-                control={control}
-                render={({ field }) => (
-                  <Input
-                    sx={inputStyle}
-                    as={InputMask}
-                    mask="+(999)99 999-99-99"
-                    maskChar=""
-                    value={field.value}
-                    onChange={field.onChange}
-                    placeholder="+(999)99 999-99-99"
-                  />
-                )}
-              />
-            </FormControl>
+
             <FormControl>
               <FormLabel htmlFor="application_type" sx={labelStyle}>
                 Мурожаат тури
@@ -495,6 +601,24 @@ export const Leaverequest = () => {
                 Мурожаатнинг қисқача мазмуни
               </FormLabel>
               <Textarea sx={inputStyle} id="comment" {...register("comment")} />
+            </FormControl>
+            <FormControl isInvalid={!!errors.operator_number}>
+              <FormLabel htmlFor="operator_number" sx={labelStyle}>
+                Оператор №
+              </FormLabel>
+              <Input
+                sx={inputStyle}
+                id="operator_number"
+                {...register("operator_number", {
+                  required: true,
+                })}
+              />
+              <FormErrorMessage
+                color={"red.300"}
+                fontSize={scssVariables.fonts.span}
+              >
+                мажбурий катак
+              </FormErrorMessage>
             </FormControl>
             <FormControl>
               <FormLabel htmlFor="resend_application" sx={labelStyle}>
