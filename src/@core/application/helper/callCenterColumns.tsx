@@ -27,7 +27,7 @@ export const callcenterColumns = [
     ),
   },
   {
-    title: "Кирувчи рақам",
+    title: "Мурожаат рақами",
     dataIndex: "incoming_number",
     key: "incoming_number",
     render: (t: any, record: any) => (
@@ -37,6 +37,31 @@ export const callcenterColumns = [
         </Text>
       </Link>
     ),
+  },
+  {
+    title: "Мурожатчи",
+    dataIndex: "applicant",
+    key: "applicant",
+  },
+  {
+    title: "Туғиланган сана",
+    dataIndex: "applicant_birthday",
+    key: "applicant_birthday",
+  },
+  {
+    title: "Телефон рақами",
+    dataIndex: "phone",
+    key: "phone",
+  },
+  {
+    title: "МФЙ-ҚФЙ",
+    dataIndex: "mfy",
+    key: "mfy",
+  },
+  {
+    title: "Кўча ва уй",
+    dataIndex: "street_and_apartment",
+    key: "street_and_apartment",
   },
   {
     title: "Вилоят",
@@ -66,16 +91,7 @@ export const callcenterColumns = [
     key: "organization_type",
     align: "center",
   },
-  {
-    title: "Мурожатчи",
-    dataIndex: "applicant",
-    key: "applicant",
-  },
-  {
-    title: "Телефон рақами",
-    dataIndex: "phone",
-    key: "phone",
-  },
+
   {
     title: "Мурожаат тури",
     dataIndex: "application_type",
@@ -112,13 +128,6 @@ export const callcenterColumns = [
     title: "Янги мурожаат ёки Такрорий мурожаатлар",
     dataIndex: "resend_application",
     key: "resend_application",
-    align: "center",
-  },
-
-  {
-    title: "Бошқарма номи",
-    dataIndex: "organization_name",
-    key: "organization_name",
     align: "center",
   },
   {

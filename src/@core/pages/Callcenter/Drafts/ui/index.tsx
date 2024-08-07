@@ -51,6 +51,8 @@ export const Drafts: FC = () => {
     const query = {
       page: current,
       pageSize: pageSize,
+      applicant_birthday: params.get("applicant_birthday") || "null",
+      phone: params.get("phone") || "null",
       applicant: params.get("applicant") || "null",
       operators: params.get("operators") || "null",
       response: params.get("response") || "null",
@@ -106,7 +108,9 @@ export const Drafts: FC = () => {
   const handleFinish = (values: any) => {
     const query = `?page=1&pageSize=${pageSize}&operators=${
       values.operators || "null"
-    }&applicant=${values.applicant || "null"}&response=${
+    }&applicant=${values.applicant || "null"}&applicant_birthday=${
+      values.applicant_birthday || "null"
+    }&phone=${values.phone || "null"}&response=${
       values.response || "null"
     }&income_number=${values.income_number || "null"}&region=${
       values.region || "null"
@@ -123,7 +127,9 @@ export const Drafts: FC = () => {
     router.push(
       `?page=${page}&pageSize=${pageSize}&operators=${params.get(
         "operators"
-      )}&applicant=${params.get("applicant") || "null"}&response=${params.get(
+      )}&applicant=${params.get("applicant") || "null"}&applicant_birthday=${
+        params.get("applicant_birthday") || "null"
+      }&phone=${params.get("phone") || "null"}&response=${params.get(
         "response"
       )}&income_number=${params.get("income_number") || "null"}&region=${
         params.get("region") || "null"
@@ -138,15 +144,19 @@ export const Drafts: FC = () => {
     router.push(
       `?page=1&pageSize=${pageSize}&operators=${params.get(
         "operators"
-      )}&applicant=${params.get("applicant") || "null"}&response=${params.get(
-        "response"
-      )}&income_number=${params.get("income_number") || "null"}&region=${
-        params.get("region") || "null"
-      }&district=${params.get("district") || "null"}&categoryId=${
-        params.get("categoryId") || "null"
-      }&subCategoryId=${params.get("subCategoryId") || "null"}&date_from=${
-        params.get("date_from") || "null"
-      }&date_to=${params.get("date_to") || "null"}`
+      )}&applicant=${params.get("applicant") || "null"}&phone=${
+        params.get("phone") || "null"
+      }&applicant_birthday=${
+        params.get("applicant_birthday") || "null"
+      }&response=${params.get("response")}&income_number=${
+        params.get("income_number") || "null"
+      }&region=${params.get("region") || "null"}&district=${
+        params.get("district") || "null"
+      }&categoryId=${params.get("categoryId") || "null"}&subCategoryId=${
+        params.get("subCategoryId") || "null"
+      }&date_from=${params.get("date_from") || "null"}&date_to=${
+        params.get("date_to") || "null"
+      }`
     );
   };
 

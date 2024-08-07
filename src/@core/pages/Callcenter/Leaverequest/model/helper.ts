@@ -113,35 +113,35 @@ export const regionList = [
 export const organizationTypeList = [
   {
     id: 1,
-    label: "Юридический",
+    label: "Юридик",
   },
   {
     id: 2,
-    label: "Физический",
+    label: "Жисмоний шахс",
   },
 ];
 export const applicationTypeList = [
   {
     id: 1,
-    label: "Ariza",
+    label: "Ариза",
   },
   {
     id: 2,
-    label: "Taklif",
+    label: "Таклиф",
   },
   {
     id: 3,
-    label: "Shikoyat",
+    label: "Шикоят",
   },
 ];
 export const resend_applicationList = [
   {
     id: 1,
-    label: "Yangi",
+    label: "Янги",
   },
   {
     id: 2,
-    label: "Takroriy",
+    label: "Такрорий",
   },
 ];
 export const responseList = [
