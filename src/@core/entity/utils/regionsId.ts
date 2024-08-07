@@ -3,7 +3,7 @@ export const regionsId = {
   Toshkent_viloyati: "4a92aa0c-edf6-4963-aa8a-f1ae98b90f7e",
   Namangan_viloyati: "57170b63-d2a8-4f46-8ace-50a078962d63",
   Andijon_viloyati: "9a48efd9-638f-43cd-9ca7-7cbafed5b8a7",
-  Sirdaryo_viloyati: "c15e4300-5c68-4550-948c-4abe5e834af1",
+  Sirdaryo_viloyati: "309a936f-04b8-4129-8e8b-0b93ef3539e2",
   Qoraqalpogiston_respublikasi: "438214b7-1ccc-4216-92ac-3474ee74e5bf",
   Fargona_viloyati: "558c3472-fa08-456d-9e00-5fed45f5cc86",
   Xorazm_viloyati: "7d8c72d8-cf5e-4ea7-ad04-7fe8ec5d8f8c",
