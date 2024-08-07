@@ -290,6 +290,8 @@ export const Leaverequest = () => {
             performer: item.performer,
             response: item.response,
             sended_to_organizations: item?.seded_to_Organization?.id,
+            income_date: "",
+            organization_name: "",
           });
         });
       });
@@ -317,6 +319,8 @@ export const Leaverequest = () => {
         performer: "",
         response: "null",
         sended_to_organizations: "null",
+        income_date: "",
+        organization_name: "",
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
