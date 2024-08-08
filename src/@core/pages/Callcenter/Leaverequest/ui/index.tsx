@@ -94,8 +94,7 @@ export const Leaverequest = () => {
             gap={"8px"}
           >
             <Button
-              isDisabled={loading}
-              isLoading={loading}
+              disabled={loading}
               id="save"
               sx={buttonStyle}
               onClick={handleSubmit(handleEdit)}
@@ -123,8 +122,7 @@ export const Leaverequest = () => {
               }}
               onClick={handleSubmit(handleEditDraft)}
               variant={"outline"}
-              isDisabled={loading}
-              isLoading={loading}
+              disabled={loading}
             >
               Қоралама сақлаш
             </Button>
@@ -132,8 +130,7 @@ export const Leaverequest = () => {
               id="save"
               sx={buttonStyle}
               onClick={handleSubmit(handleEdit)}
-              isDisabled={loading}
-              isLoading={loading}
+              disabled={loading}
             >
               Сақлаш
             </Button>
@@ -159,8 +156,7 @@ export const Leaverequest = () => {
             }}
             onClick={handleSubmit(handleCreateDraft)}
             variant={"outline"}
-            isDisabled={loading}
-            isLoading={loading}
+            disabled={loading}
           >
             Қоралама сақлаш
           </Button>
@@ -168,8 +164,7 @@ export const Leaverequest = () => {
             id="save"
             sx={buttonStyle}
             onClick={handleSubmit(handleCreate)}
-            isDisabled={loading}
-            isLoading={loading}
+            disabled={loading}
           >
             Сақлаш
           </Button>
