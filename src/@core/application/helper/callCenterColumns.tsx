@@ -131,6 +131,11 @@ export const callcenterColumns = [
     align: "center",
   },
   {
+    title: "Оператор №",
+    dataIndex: "operator_number",
+    key: "operator_number",
+  },
+  {
     title: "Ижрочи",
     dataIndex: "performer",
     key: "performer",
