@@ -173,7 +173,7 @@ export const Leaverequest = () => {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, params]);
+  }, [data, params, loading]);
 
   // CREATE
   const handleCreate = async (values: any) => {
