@@ -52,9 +52,10 @@ export const Drafts: FC = () => {
       page: current,
       pageSize: pageSize,
       applicant_birthday: params.get("applicant_birthday") || "null",
-      phone: params.get("phone")
-        ? `+${String(params.get("phone")).trim()}`
-        : "null",
+      phone:
+        params.has("phone") && params.get("phone") !== "null"
+          ? `+${String(params.get("phone")).trim()}`
+          : "null",
       applicant: params.get("applicant") || "null",
       operators: params.get("operators") || "null",
       response: params.get("response") || "null",
