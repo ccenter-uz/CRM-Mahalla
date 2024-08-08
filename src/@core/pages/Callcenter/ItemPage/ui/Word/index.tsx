@@ -111,7 +111,7 @@ export const Word: FC<Props> = forwardRef((props, ref: any) => {
             <td>{data[0]?.additional_phone || "Маълумот йўқ"}</td>
           </tr>
           <tr>
-            <td>10</td>
+            <td>9</td>
             <td>Murojaatning qisqacha mazmuni</td>
             <td>{data[0]?.comment || "Маълумот йўқ"}</td>
           </tr>
