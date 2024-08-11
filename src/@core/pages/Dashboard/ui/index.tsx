@@ -40,6 +40,7 @@ import { BarChart } from "./BarChart";
 import { LineChart } from "./LineGraph";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import AutocompleteSelect from "@/@core/shared/ui/Autocomplete";
+import { GlobalVars } from "@/@core/shared/vars";
 
 export const Dashboard: FC<any> = (props) => {
   const breadcrumbs = [
@@ -96,7 +97,7 @@ export const Dashboard: FC<any> = (props) => {
   // GET-LINEGRAPH
   const getLine = async () => {
     let query;
-    const errorCase = ["null", "", null];
+    const errorCase = [GlobalVars.NullString, "", null];
     if (
       !errorCase.includes(params.get("date_from")) &&
       !errorCase.includes(params.get("date_to"))
@@ -120,7 +121,7 @@ export const Dashboard: FC<any> = (props) => {
   // GET-BARGRAPH
   const getBar = async () => {
     let query;
-    const errorCase = ["null", "", null];
+    const errorCase = [GlobalVars.NullString, "", null];
     if (
       !errorCase.includes(params.get("date_from")) &&
       !errorCase.includes(params.get("date_to"))
@@ -178,7 +179,7 @@ export const Dashboard: FC<any> = (props) => {
 
   // CHANGE
   const handleChangeRazdel = async (e: { value: string }) => {
-    if (e?.value === "null") {
+    if (e?.value === GlobalVars.NullString) {
       await getPodrazdel();
     } else {
       const data = await postChangeRazdel(e?.value);
@@ -201,9 +202,9 @@ export const Dashboard: FC<any> = (props) => {
   // CLEAR
   const handleClear = async () => {
     reset({
-      region: "null",
-      categoryId: "null",
-      subCategoryId: "null",
+      region: GlobalVars.NullString,
+      categoryId: GlobalVars.NullString,
+      subCategoryId: GlobalVars.NullString,
     });
     if (params.get("date_from") && params.get("date_to")) {
       return router.push(
@@ -254,9 +255,9 @@ export const Dashboard: FC<any> = (props) => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       reset({
-        region: params.get("region") || "null",
-        categoryId: params.get("categoryId") || "null",
-        subCategoryId: params.get("subCategoryId") || "null",
+        region: params.get("region") || GlobalVars.NullString,
+        categoryId: params.get("categoryId") || GlobalVars.NullString,
+        subCategoryId: params.get("subCategoryId") || GlobalVars.NullString,
       });
       reset1({
         date_from: params.get("date_from") || "",
@@ -709,7 +710,7 @@ export const Dashboard: FC<any> = (props) => {
                       name="region"
                       control={control}
                       options={[
-                        { value: "null", label: "Барчаси" },
+                        { value: GlobalVars.NullString, label: "Барчаси" },
                         ...regions?.map((region: any) => ({
                           value: region.id,
                           label:
@@ -727,7 +728,7 @@ export const Dashboard: FC<any> = (props) => {
                       name="categoryId"
                       control={control}
                       options={[
-                        { value: "null", label: "Барчаси" },
+                        { value: GlobalVars.NullString, label: "Барчаси" },
                         ...razdel?.map((field: any) => ({
                           value: field.id,
                           label: field.title,
@@ -744,7 +745,7 @@ export const Dashboard: FC<any> = (props) => {
                       name="subCategoryId"
                       control={control}
                       options={[
-                        { value: "null", label: "Барчаси" },
+                        { value: GlobalVars.NullString, label: "Барчаси" },
                         ...podrazdel?.map((field: any) => ({
                           value: field.id,
                           label: field.title,

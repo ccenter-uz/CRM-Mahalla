@@ -3,6 +3,7 @@ import { Icon, Text, Tooltip } from "@chakra-ui/react";
 import { PenTool } from "react-feather";
 import { scssVariables } from "../utils/vars";
 import moment from "moment";
+import { GlobalVars } from "@/@core/shared/vars";
 
 export const callcenterColumns = [
   {
@@ -168,7 +169,7 @@ export const callcenterColumns = [
     key: "response",
     align: "center",
     render: (t: string) => {
-      return t === "null" ? "" : t;
+      return t === GlobalVars.NullString ? "" : t;
     },
   },
 ];

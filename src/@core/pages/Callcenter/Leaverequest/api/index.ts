@@ -1,4 +1,5 @@
 import { api } from "@/@core/application/utils/api";
+import { GlobalVars } from "@/@core/shared/vars";
 
 // CREATE
 // NEW
@@ -48,9 +49,9 @@ export const postChangeRazdel = async (id: number | string) => {
   try {
     const response = await api.get(`/SectionCategories/one/${id}`, {
       params: {
-        page: 1,
-        pageSize: 1000000,
-        search: "null",
+        page: GlobalVars.FirstPage,
+        pageSize: GlobalVars.All,
+        search: GlobalVars.NullString,
       },
     });
 
