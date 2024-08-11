@@ -14,6 +14,7 @@ import { postChangeRazdel } from "../api";
 import { getcallcenterforExcel } from "../api/getExcel";
 import { FilterTable } from "@/@core/features/FilterTable";
 import { callcenterColumns } from "@/@core/application/helper/callCenterColumns";
+import { GlobalVars } from "@/@core/shared/vars";
 
 export const Requests: FC = () => {
   const breadcrumb = [
@@ -47,31 +48,33 @@ export const Requests: FC = () => {
     const query = {
       page: current,
       pageSize: pageSize,
-      applicant_birthday: params.get("applicant_birthday") || "null",
+      applicant_birthday:
+        params.get("applicant_birthday") || GlobalVars.NullString,
       phone:
-        params.has("phone") && params.get("phone") !== "null"
+        params.has("phone") && params.get("phone") !== GlobalVars.NullString
           ? `+${String(params.get("phone")).trim()}`
-          : "null",
-      operators: params.get("operators") || "null",
-      applicant: params.get("applicant") || "null",
-      response: params.get("response") || "null",
-      income_number: params.get("income_number") || "null",
-      region: params.get("region") || "null",
-      district: params.get("district") || "null",
-      categoryId: params.get("categoryId") || "null",
-      subCategoryId: params.get("subCategoryId") || "null",
+          : GlobalVars.NullString,
+      operators: params.get("operators") || GlobalVars.NullString,
+      applicant: params.get("applicant") || GlobalVars.NullString,
+      response: params.get("response") || GlobalVars.NullString,
+      income_number: params.get("income_number") || GlobalVars.NullString,
+      region: params.get("region") || GlobalVars.NullString,
+      district: params.get("district") || GlobalVars.NullString,
+      categoryId: params.get("categoryId") || GlobalVars.NullString,
+      subCategoryId: params.get("subCategoryId") || GlobalVars.NullString,
       date_from:
-        params.get("date_from") !== "null" && params.get("date_from")
+        params.get("date_from") !== GlobalVars.NullString &&
+        params.get("date_from")
           ? new Intl.DateTimeFormat("ru-RU").format(
-              new Date(params.get("date_from") || "null")
+              new Date(params.get("date_from") || GlobalVars.NullString)
             )
-          : "null",
+          : GlobalVars.NullString,
       date_to:
-        params.get("date_to") !== "null" && params.get("date_to")
+        params.get("date_to") !== GlobalVars.NullString && params.get("date_to")
           ? new Intl.DateTimeFormat("ru-RU").format(
-              new Date(params.get("date_to") || "null")
+              new Date(params.get("date_to") || GlobalVars.NullString)
             )
-          : "null",
+          : GlobalVars.NullString,
     };
     const res = await GET(query);
 
@@ -85,11 +88,15 @@ export const Requests: FC = () => {
       getPodrazdel(),
       getRegions(),
       getDistrict(),
-      getOrganizations({ page: 1, pageSize: 100000, search: "null" }),
+      getOrganizations({
+        page: GlobalVars.FirstPage,
+        pageSize: GlobalVars.All,
+        search: GlobalVars.NullString,
+      }),
       getOperators({
-        page: 1,
-        pageSize: 1000000,
-        search: "null",
+        page: GlobalVars.FirstPage,
+        pageSize: GlobalVars.All,
+        search: GlobalVars.NullString,
         role: "operator",
       }),
     ]);
@@ -105,19 +112,25 @@ export const Requests: FC = () => {
 
   // FINISH
   const handleFinish = (values: any) => {
-    const query = `?page=1&pageSize=${pageSize}&operators=${
-      values.operators || "null"
-    }&applicant=${values.applicant || "null"}&applicant_birthday=${
-      values.applicant_birthday || "null"
-    }&phone=${values.phone || "null"}&response=${
-      values.response || "null"
-    }&income_number=${values.income_number || "null"}&region=${
-      values.region || "null"
-    }&district=${values.district || "null"}&categoryId=${
-      values.categoryId || "null"
-    }&subCategoryId=${values.subCategoryId || "null"}&date_from=${
-      values.date_from || "null"
-    }&date_to=${values.date_to || "null"}`;
+    const query = `?page=${
+      GlobalVars.FirstPage
+    }&pageSize=${pageSize}&operators=${
+      values.operators || GlobalVars.NullString
+    }&applicant=${
+      values.applicant || GlobalVars.NullString
+    }&applicant_birthday=${
+      values.applicant_birthday || GlobalVars.NullString
+    }&phone=${values.phone || GlobalVars.NullString}&response=${
+      values.response || GlobalVars.NullString
+    }&income_number=${values.income_number || GlobalVars.NullString}&region=${
+      values.region || GlobalVars.NullString
+    }&district=${values.district || GlobalVars.NullString}&categoryId=${
+      values.categoryId || GlobalVars.NullString
+    }&subCategoryId=${
+      values.subCategoryId || GlobalVars.NullString
+    }&date_from=${values.date_from || GlobalVars.NullString}&date_to=${
+      values.date_to || GlobalVars.NullString
+    }`;
 
     router.push(query);
   };
@@ -126,40 +139,52 @@ export const Requests: FC = () => {
     router.push(
       `?page=${page}&pageSize=${pageSize}&operators=${params.get(
         "operators"
-      )}&applicant=${params.get("applicant") || "null"}&applicant_birthday=${
-        params.get("applicant_birthday") || "null"
-      }&phone=${params.get("phone") || "null"}&response=${params.get(
-        "response"
-      )}&income_number=${params.get("income_number") || "null"}&region=${
-        params.get("region") || "null"
-      }&district=${params.get("district") || "null"}&categoryId=${
-        params.get("categoryId") || "null"
-      }&subCategoryId=${params.get("subCategoryId") || "null"}&date_from=${
-        params.get("date_from") || "null"
-      }&date_to=${params.get("date_to") || "null"}`
+      )}&applicant=${
+        params.get("applicant") || GlobalVars.NullString
+      }&applicant_birthday=${
+        params.get("applicant_birthday") || GlobalVars.NullString
+      }&phone=${
+        params.get("phone") || GlobalVars.NullString
+      }&response=${params.get("response")}&income_number=${
+        params.get("income_number") || GlobalVars.NullString
+      }&region=${params.get("region") || GlobalVars.NullString}&district=${
+        params.get("district") || GlobalVars.NullString
+      }&categoryId=${
+        params.get("categoryId") || GlobalVars.NullString
+      }&subCategoryId=${
+        params.get("subCategoryId") || GlobalVars.NullString
+      }&date_from=${params.get("date_from") || GlobalVars.NullString}&date_to=${
+        params.get("date_to") || GlobalVars.NullString
+      }`
     );
   };
   const handlePageSizeChange = (pageSize: number) => {
     router.push(
       `?page=1&pageSize=${pageSize}&operators=${params.get(
         "operators"
-      )}&applicant=${params.get("applicant") || "null"}&applicant_birthday=${
-        params.get("applicant_birthday") || "null"
-      }&phone=${params.get("phone") || "null"}&response=${params.get(
-        "response"
-      )}&income_number=${params.get("income_number") || "null"}&region=${
-        params.get("region") || "null"
-      }&district=${params.get("district") || "null"}&categoryId=${
-        params.get("categoryId") || "null"
-      }&subCategoryId=${params.get("subCategoryId") || "null"}&date_from=${
-        params.get("date_from") || "null"
-      }&date_to=${params.get("date_to") || "null"}`
+      )}&applicant=${
+        params.get("applicant") || GlobalVars.NullString
+      }&applicant_birthday=${
+        params.get("applicant_birthday") || GlobalVars.NullString
+      }&phone=${
+        params.get("phone") || GlobalVars.NullString
+      }&response=${params.get("response")}&income_number=${
+        params.get("income_number") || GlobalVars.NullString
+      }&region=${params.get("region") || GlobalVars.NullString}&district=${
+        params.get("district") || GlobalVars.NullString
+      }&categoryId=${
+        params.get("categoryId") || GlobalVars.NullString
+      }&subCategoryId=${
+        params.get("subCategoryId") || GlobalVars.NullString
+      }&date_from=${params.get("date_from") || GlobalVars.NullString}&date_to=${
+        params.get("date_to") || GlobalVars.NullString
+      }`
     );
   };
 
   // CHANGE
   const handleChangeRazdel = async (e: any) => {
-    if (e?.value === "null") {
+    if (e?.value === GlobalVars.NullString) {
       await getPodrazdel();
     } else {
       const data = await postChangeRazdel(e?.value);
@@ -169,7 +194,7 @@ export const Requests: FC = () => {
   };
 
   const handleChangeRegion = async (e: any) => {
-    if (e?.value === "null") {
+    if (e?.value === GlobalVars.NullString) {
       await getDistrict();
     } else {
       const data = await getDistrictByRegionId(e?.value);
