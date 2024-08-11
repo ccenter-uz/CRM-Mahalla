@@ -38,6 +38,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import AutocompleteSelect from "@/@core/shared/ui/Autocomplete";
 import InputMask from "react-input-mask";
+import moment from "moment";
 
 export const Leaverequest = () => {
   const params = useSearchParams();
@@ -288,8 +289,9 @@ export const Leaverequest = () => {
             performer: item.performer,
             response: item.response,
             sended_to_organizations: item?.seded_to_Organization?.id,
-            income_date:
-              item?.income_date || Intl.DateTimeFormat("ru").format(Date.now()),
+            income_date: item?.income_date
+              ? moment(item?.income_date).format("DD-MM-YYYY HH:mm")
+              : moment(Date.now()).format("DD-MM-YYYY HH:mm"),
 
             organization_name: "",
           });
@@ -319,7 +321,7 @@ export const Leaverequest = () => {
         performer: "",
         response: "null",
         sended_to_organizations: "null",
-        income_date: Intl.DateTimeFormat("ru").format(Date.now()),
+        income_date: moment(Date.now()).format("DD-MM-YYYY HH:mm"),
 
         organization_name: "",
       });
