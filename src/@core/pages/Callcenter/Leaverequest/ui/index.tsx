@@ -38,7 +38,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import AutocompleteSelect from "@/@core/shared/ui/Autocomplete";
 import InputMask from "react-input-mask";
-import moment from "moment";
+import dayjs from "dayjs";
 import { GlobalVars } from "@/@core/shared/vars";
 
 export const Leaverequest = () => {
@@ -97,6 +97,7 @@ export const Leaverequest = () => {
           >
             <Button
               isDisabled={loading}
+              isLoading={loading}
               id="save"
               sx={buttonStyle}
               onClick={handleSubmit(handleEdit)}
@@ -125,6 +126,7 @@ export const Leaverequest = () => {
               onClick={handleSubmit(handleEditDraft)}
               variant={"outline"}
               isDisabled={loading}
+              isLoading={loading}
             >
               Қоралама сақлаш
             </Button>
@@ -133,6 +135,7 @@ export const Leaverequest = () => {
               sx={buttonStyle}
               onClick={handleSubmit(handleEdit)}
               isDisabled={loading}
+              isLoading={loading}
             >
               Сақлаш
             </Button>
@@ -159,6 +162,7 @@ export const Leaverequest = () => {
             onClick={handleSubmit(handleCreateDraft)}
             variant={"outline"}
             isDisabled={loading}
+            isLoading={loading}
           >
             Қоралама сақлаш
           </Button>
@@ -167,6 +171,7 @@ export const Leaverequest = () => {
             sx={buttonStyle}
             onClick={handleSubmit(handleCreate)}
             isDisabled={loading}
+            isLoading={loading}
           >
             Сақлаш
           </Button>
@@ -295,8 +300,8 @@ export const Leaverequest = () => {
             response: item.response,
             sended_to_organizations: item?.seded_to_Organization?.id,
             income_date: item?.income_date
-              ? moment(item?.income_date).format("DD-MM-YYYY HH:mm")
-              : moment(Date.now()).format("DD-MM-YYYY HH:mm"),
+              ? dayjs(new Date(item?.income_date)).format("DD-MM-YYYY HH:mm")
+              : new Date(),
 
             organization_name: "",
           });
@@ -326,7 +331,7 @@ export const Leaverequest = () => {
         performer: "",
         response: GlobalVars.NullString,
         sended_to_organizations: GlobalVars.NullString,
-        income_date: moment(Date.now()).format("DD-MM-YYYY HH:mm"),
+        income_date: new Date(),
 
         organization_name: "",
       });
@@ -410,40 +415,22 @@ export const Leaverequest = () => {
               <FormLabel htmlFor="phone" sx={labelStyle}>
                 Телефон рақам
               </FormLabel>
-              <Controller
-                name="phone"
-                control={control}
-                render={({ field }) => (
-                  <Input
-                    sx={inputStyle}
-                    as={InputMask}
-                    mask="+(999)99 999-99-99"
-                    alwaysShowMask
-                    value={field.value}
-                    onChange={field.onChange}
-                    placeholder="+(999)99 999-99-99"
-                  />
-                )}
+              <Input
+                sx={inputStyle}
+                as={InputMask}
+                mask="+(999)99 999-99-99"
+                {...register("phone")}
               />
             </FormControl>
             <FormControl>
               <FormLabel htmlFor="additional_phone" sx={labelStyle}>
                 Қўшимча телефон рақам
               </FormLabel>
-              <Controller
-                name="additional_phone"
-                control={control}
-                render={({ field }) => (
-                  <Input
-                    sx={inputStyle}
-                    as={InputMask}
-                    mask="+(999)99 999-99-99"
-                    alwaysShowMask
-                    value={field.value}
-                    onChange={field.onChange}
-                    placeholder="+(999)99 999-99-99"
-                  />
-                )}
+              <Input
+                sx={inputStyle}
+                as={InputMask}
+                mask="+(999)99 999-99-99"
+                {...register("additional_phone")}
               />
             </FormControl>
             <FormControl isInvalid={!!errors.region}>

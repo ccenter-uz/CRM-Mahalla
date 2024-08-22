@@ -8,29 +8,9 @@ export const labelStyle = {
   marginTop: { base: "8px", sm: "8px", md: "16px", xl: "16px" },
 };
 
-export const inputStyle = {
-  color: scssVariables.textGreyColor,
-  fontSize: scssVariables.fonts.parag,
-  fontWeight: 400,
-  h: { base: "30px", sm: "30px", md: "35px", xl: "35px" },
-  _focus: { boxShadow: "none", outline: scssVariables.primary },
-  p: {
-    base: "5px",
-    sm: "5px",
-    md: "16px",
-    xl: "16px",
-  },
-  borderColor: "lightgrey",
-};
 
-export const selectStyle = {
-  color: scssVariables.textGreyColor,
-  fontSize: scssVariables.fonts.parag,
-  fontWeight: 400,
-  h: { base: "30px", sm: "30px", md: "35px", xl: "35px" },
-  _focus: { boxShadow: "none", outline: scssVariables.primary },
-  borderColor: "lightgrey",
-};
+
+
 
 export const buttonStyle = {
   w: {
