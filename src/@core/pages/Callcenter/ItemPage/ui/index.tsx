@@ -9,7 +9,7 @@ import { scssVariables } from "@/@core/application/utils/vars";
 import { EditHistorydrawer } from "./EditHistoryDrawer";
 import { useDisclosure } from "@/@core/shared/hook/useDisclosure";
 import { Word } from "./Word";
-import moment from "moment";
+import dayjs from "dayjs";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
@@ -190,7 +190,9 @@ export const Itempage: FC = () => {
                 <td>Ijro qilingan sana</td>
                 <td>
                   {data[0]?.perform_date
-                    ? moment(data[0]?.perform_date).format("DD.MM.YYYY HH:mm")
+                    ? dayjs(new Date(data[0]?.perform_date)).format(
+                        "DD.MM.YYYY HH:mm"
+                      )
                     : "Маълумот йўқ"}
                 </td>
               </tr>
