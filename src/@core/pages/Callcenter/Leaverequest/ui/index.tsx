@@ -22,8 +22,9 @@ import {
   resend_applicationList,
   responseList,
   selectStyle,
+  statusList,
 } from "../model/helper";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useGlobal } from "@/@core/application/store/global";
 import {
   getItemById,
@@ -35,9 +36,10 @@ import {
 } from "../api";
 import { toast } from "react-toastify";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import AutocompleteSelect from "@/@core/shared/ui/Autocomplete";
-import InputMask from "react-input-mask";
+import ReactInputMask from "react-input-mask";
+import Cookies from "js-cookie";
 import dayjs from "dayjs";
 import { GlobalVars } from "@/@core/shared/vars";
 
@@ -82,7 +84,13 @@ export const Leaverequest = () => {
   } = useForm();
   const router = useRouter();
   const [data, setData] = useState<any>([]);
+  const [role, setRole] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [disableRequireds, setDisableRequireds] = useState<boolean>(true);
+
+  useEffect(() => {
+    Cookies.get("role") && setRole(Cookies.get("role") as string);
+  }, []);
 
   // BTNS
   const handleButtons = useCallback(() => {
@@ -275,33 +283,36 @@ export const Leaverequest = () => {
     if (params.get("edit")) {
       getItemById(params.get("edit") || "").then((res) => {
         setData(res?.data);
-        res?.data.map((item: any) => {
+        if (res?.data[0]?.application_type === "Бошқа масалалар")
+          setDisableRequireds(false);
+        res?.data?.map((item: any) => {
           return reset({
             operator_number: item?.operator_number,
             gender: item?.gender,
-            additional_phone: item?.additional_phone,
+            additional_phone: item?.additional_phone || "",
             applicant_birthday: item?.applicant_birthday,
             mfy: item?.mfy,
             street_and_apartment: item?.street_and_apartment,
-            region: item.districts?.region?.id,
-            district_id: item.districts?.id,
-            IsDraf: item.IsDraf,
-            organization_type: item.organization_type,
-            application_type: item.application_type,
-            applicant: item.applicant,
-            phone: item.phone,
-            comment: item.comment,
-            resend_application: item.resend_application,
-            sub_category_id: item.sub_category_call_center?.id,
-            category_org: item.sub_category_call_center?.category_org?.id,
-            id: item.id,
-            perform_date: item.perform_date,
-            performer: item.performer,
-            response: item.response,
+            region: item?.districts?.region?.id,
+            district_id: item?.districts?.id,
+            IsDraf: item?.IsDraf,
+            organization_type: item?.organization_type,
+            application_type: item?.application_type,
+            applicant: item?.applicant,
+            phone: item?.phone,
+            comment: item?.comment,
+            resend_application: item?.resend_application,
+            sub_category_id: item?.sub_category_call_center?.id,
+            category_org: item?.sub_category_call_center?.category_org?.id,
+            id: item?.id,
+            perform_date: item?.perform_date,
+            performer: item?.performer,
+            response: item?.response,
             sended_to_organizations: item?.seded_to_Organization?.id,
             income_date: item?.income_date
               ? dayjs(new Date(item?.income_date)).format("DD-MM-YYYY HH:mm")
               : new Date(),
+            status: item?.status || "Кўриб чиқиш жараёнида",
 
             organization_name: "",
           });
@@ -316,7 +327,7 @@ export const Leaverequest = () => {
         mfy: "",
         street_and_apartment: "",
         region: null,
-        district_id: null,
+        district_id: GlobalVars.NullString,
         IsDraf: "",
         organization_type: GlobalVars.NullString,
         application_type: GlobalVars.NullString,
@@ -324,7 +335,7 @@ export const Leaverequest = () => {
         phone: "",
         comment: "",
         resend_application: GlobalVars.NullString,
-        sub_category_id: null,
+        sub_category_id: GlobalVars.NullString,
         category_org: null,
         id: "",
         perform_date: "",
@@ -332,6 +343,7 @@ export const Leaverequest = () => {
         response: GlobalVars.NullString,
         sended_to_organizations: GlobalVars.NullString,
         income_date: new Date(),
+        status: "Янги",
 
         organization_name: "",
       });
@@ -365,7 +377,7 @@ export const Leaverequest = () => {
                 id="applicant"
                 placeholder="Азизов Азиз Азизович"
                 type="text"
-                {...register("applicant", { required: true })}
+                {...register("applicant", { required: disableRequireds })}
               />
               <FormErrorMessage
                 color={"red.300"}
@@ -382,7 +394,9 @@ export const Leaverequest = () => {
                 sx={inputStyle}
                 id="applicant_birthday"
                 type="date"
-                {...register("applicant_birthday", { required: true })}
+                {...register("applicant_birthday", {
+                  required: disableRequireds,
+                })}
               />
               <FormErrorMessage
                 color={"red.300"}
@@ -398,7 +412,7 @@ export const Leaverequest = () => {
               <Select
                 sx={selectStyle}
                 id="gender"
-                {...register("gender", { required: true })}
+                {...register("gender", { required: disableRequireds })}
               >
                 <option value="">Танланг</option>
                 <option value="male">Эркак</option>
@@ -417,7 +431,7 @@ export const Leaverequest = () => {
               </FormLabel>
               <Input
                 sx={inputStyle}
-                as={InputMask}
+                as={ReactInputMask}
                 mask="+(999)99 999-99-99"
                 {...register("phone")}
               />
@@ -428,7 +442,7 @@ export const Leaverequest = () => {
               </FormLabel>
               <Input
                 sx={inputStyle}
-                as={InputMask}
+                as={ReactInputMask}
                 mask="+(999)99 999-99-99"
                 {...register("additional_phone")}
               />
@@ -438,7 +452,7 @@ export const Leaverequest = () => {
                 Вилоят
               </FormLabel>
               <AutocompleteSelect
-                required
+                required={disableRequireds}
                 name="region"
                 control={control}
                 options={[
@@ -463,7 +477,7 @@ export const Leaverequest = () => {
                 Туман
               </FormLabel>
               <AutocompleteSelect
-                required
+                required={disableRequireds}
                 name="district_id"
                 control={control}
                 options={[
@@ -536,6 +550,11 @@ export const Leaverequest = () => {
                 sx={selectStyle}
                 id="application_type"
                 {...register("application_type")}
+                onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+                  e.target.value === "Бошқа масалалар"
+                    ? setDisableRequireds(false)
+                    : setDisableRequireds(true)
+                }
               >
                 <option value={GlobalVars.NullString}>Танланг</option>
                 {applicationTypeList.map((applicationType) => (
@@ -577,7 +596,7 @@ export const Leaverequest = () => {
                 Тасниф
               </FormLabel>
               <AutocompleteSelect
-                required
+                required={disableRequireds}
                 name="sub_category_id"
                 control={control}
                 options={[
@@ -639,57 +658,88 @@ export const Leaverequest = () => {
                 ))}
               </Select>
             </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="performer" sx={labelStyle}>
-                Ижрочи
-              </FormLabel>
-              <Input
-                sx={inputStyle}
-                id="performer"
-                type="text"
-                {...register("performer")}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="perform_date" sx={labelStyle}>
-                Ижро қилинган сана
-              </FormLabel>
-              <Input
-                sx={inputStyle}
-                id="perform_date"
-                type="date"
-                {...register("perform_date")}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="sended_to_organizations" sx={labelStyle}>
-                Тегишли идораларга юборилган
-              </FormLabel>
-              <AutocompleteSelect
-                name="sended_to_organizations"
-                control={control}
-                options={[
-                  { value: GlobalVars.NullString, label: "Барчаси" },
-                  ...organizations?.map((dist: any) => ({
-                    value: dist.id,
-                    label: dist.title[0].toUpperCase() + dist.title.slice(1),
-                  })),
-                ]}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="response" sx={labelStyle}>
-                Мурожаатни жавоби
-              </FormLabel>
-              <Select sx={selectStyle} id="response" {...register("response")}>
-                <option value={GlobalVars.NullString}>Танланг</option>
-                {responseList.map((response) => (
-                  <option key={response.id} value={response.label}>
-                    {response.label}
-                  </option>
-                ))}
-              </Select>
-            </FormControl>
+            {role === "admin" && (
+              <FormControl>
+                <FormLabel htmlFor="performer" sx={labelStyle}>
+                  Ижрочи
+                </FormLabel>
+                <Input
+                  sx={inputStyle}
+                  id="performer"
+                  type="text"
+                  {...register("performer")}
+                />
+              </FormControl>
+            )}
+            {role === "admin" && (
+              <FormControl>
+                <FormLabel htmlFor="perform_date" sx={labelStyle}>
+                  Ижро қилинган сана
+                </FormLabel>
+                <Input
+                  sx={inputStyle}
+                  id="perform_date"
+                  type="date"
+                  {...register("perform_date")}
+                />
+              </FormControl>
+            )}
+            {role === "admin" && (
+              <FormControl>
+                <FormLabel htmlFor="sended_to_organizations" sx={labelStyle}>
+                  Тегишли идораларга юборилган
+                </FormLabel>
+                <AutocompleteSelect
+                  name="sended_to_organizations"
+                  control={control}
+                  options={[
+                    { value: GlobalVars.NullString, label: "Барчаси" },
+                    ...organizations?.map((dist: any) => ({
+                      value: dist.id,
+                      label: dist.title[0].toUpperCase() + dist.title.slice(1),
+                    })),
+                  ]}
+                />
+              </FormControl>
+            )}
+            {role === "admin" && (
+              <FormControl>
+                <FormLabel htmlFor="response" sx={labelStyle}>
+                  Мурожаатни жавоби
+                </FormLabel>
+                <Select
+                  sx={selectStyle}
+                  id="response"
+                  {...register("response")}
+                >
+                  <option value={GlobalVars.NullString}>Танланг</option>
+                  {responseList?.map((response) => (
+                    <option key={response.id} value={response.label}>
+                      {response.label}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
+            )}
+            {role === "admin" && (
+              <FormControl>
+                <FormLabel htmlFor="status" sx={labelStyle}>
+                  Мурожаат холати
+                </FormLabel>
+                <Select
+                  defaultValue={"Янги"}
+                  sx={selectStyle}
+                  id="status"
+                  {...register("status")}
+                >
+                  {statusList?.map((status) => (
+                    <option key={status.id} value={status.label}>
+                      {status.label}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
+            )}
           </form>
         </Box>
       </PaperContent>
