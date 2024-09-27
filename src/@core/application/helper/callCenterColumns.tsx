@@ -1,9 +1,17 @@
 import { Link } from "@/navigation";
-import { Icon, Text, Tooltip } from "@chakra-ui/react";
-import { PenTool } from "react-feather";
+import { Flex, Icon, Text, Tooltip } from "@chakra-ui/react";
+import { Circle, PenTool } from "react-feather";
 import { scssVariables } from "../utils/vars";
 import dayjs from "dayjs";
 import { GlobalVars } from "@/@core/shared/vars";
+import { IMG_URL } from "../utils/api";
+
+const checkStatusApp: { [key: string]: string } = {
+  Янги: "#68D391",
+  "Кўриб чиқиш жараёнида": "#F6AD55",
+  "Кўриб чиқилган": "#F56565",
+  "Кўриб чиқиш жараёни чўздирилган": "#ECC94B",
+};
 
 export const callcenterColumns = [
   {
@@ -27,6 +35,46 @@ export const callcenterColumns = [
         </Tooltip>
       </Link>
     ),
+  },
+  {
+    title: "Жавоб хати",
+    dataIndex: "response_file",
+    key: "response_file",
+    align: "center",
+    render: (t: any) => {
+      return t ? (
+        <Text
+          as="a"
+          target="_blank"
+          href={`${IMG_URL}/${t}`}
+          color={"blue.300"}
+          cursor={"pointer"}
+          aria-label="Кўриш"
+        >
+          Кўриш
+        </Text>
+      ) : (
+        <Text color={"grey"}>Йўқ</Text>
+      );
+    },
+  },
+  {
+    title: "Мурожаат холати",
+    dataIndex: "status",
+    key: "status",
+    render: (t: string) => {
+      return (
+        <Flex align={"center"} gap={"5px"}>
+          <Circle
+            width={8}
+            height={8}
+            fill={checkStatusApp[t]}
+            color={checkStatusApp[t]}
+          />
+          <Text color={checkStatusApp[t]}>{t}</Text>
+        </Flex>
+      );
+    },
   },
   {
     title: "Мурожаат рақами",

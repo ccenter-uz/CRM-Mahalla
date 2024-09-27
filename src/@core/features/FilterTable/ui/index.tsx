@@ -13,7 +13,11 @@ import { buttonStyle, inputStyle, labelStyle } from "../model/helper";
 import { useGlobal } from "@/@core/application/store/global";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FC, useEffect } from "react";
-import { responseList } from "@/@core/pages/Callcenter/Leaverequest/model/helper";
+import {
+  applicationTypeList,
+  responseList,
+  statusList,
+} from "@/@core/pages/Callcenter/Leaverequest/model/helper";
 import AutocompleteSelect from "@/@core/shared/ui/Autocomplete";
 import InputMask from "react-input-mask";
 import { GlobalVars } from "@/@core/shared/vars";
@@ -46,6 +50,7 @@ export const FilterTable: FC<Props> = (props) => {
     setPodrazdel([]);
     setDistrict([]);
     reset({
+      status: params.get("status") || GlobalVars.NullString,
       phone: "",
       applicant_birthday: GlobalVars.NullString,
       income_number: "",
@@ -58,6 +63,7 @@ export const FilterTable: FC<Props> = (props) => {
       response: GlobalVars.NullString,
       operators: GlobalVars.NullString,
       applicant: "",
+      application_type: GlobalVars.NullString,
     });
     await Promise.all([getPodrazdel(), getDistrict()]);
     router.push(`?page=1&pageSize=10`);
@@ -66,10 +72,13 @@ export const FilterTable: FC<Props> = (props) => {
   useEffect(() => {
     setTimeout(() => {
       reset({
+        status: params.get("status") || GlobalVars.NullString,
         phone: params.get("phone") || "",
         applicant_birthday:
           params.get("applicant_birthday") || GlobalVars.NullString,
         applicant: params.get("applicant") || "",
+        application_type:
+          params.get("application_type") || GlobalVars.NullString,
         operators: params.get("operators") || GlobalVars.NullString,
         response: params.get("response") || GlobalVars.NullString,
         income_number:
@@ -237,6 +246,38 @@ export const FilterTable: FC<Props> = (props) => {
               ...podrazdel?.map((field: any) => ({
                 value: field.id,
                 label: field.title,
+              })),
+            ]}
+          />
+        </FormControl>
+        <FormControl>
+          <FormLabel htmlFor="application_type" sx={labelStyle}>
+            Мурожаат тури
+          </FormLabel>
+          <AutocompleteSelect
+            name="application_type"
+            control={control}
+            options={[
+              { value: GlobalVars.NullString, label: "Барчаси" },
+              ...applicationTypeList?.map((field: any) => ({
+                value: field.label,
+                label: field.label,
+              })),
+            ]}
+          />
+        </FormControl>
+        <FormControl>
+          <FormLabel htmlFor="status" sx={labelStyle}>
+            Мурожаат холати
+          </FormLabel>
+          <AutocompleteSelect
+            name="status"
+            control={control}
+            options={[
+              { value: GlobalVars.NullString, label: "Барчаси" },
+              ...statusList?.map((field: any) => ({
+                value: field.label,
+                label: field.label,
               })),
             ]}
           />
