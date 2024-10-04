@@ -48,6 +48,7 @@ export const Requests: FC = () => {
     const query = {
       page: current,
       pageSize: pageSize,
+      status: params.get("status") || GlobalVars.NullString,
       applicant_birthday:
         params.get("applicant_birthday") || GlobalVars.NullString,
       phone:
@@ -56,6 +57,7 @@ export const Requests: FC = () => {
           : GlobalVars.NullString,
       operators: params.get("operators") || GlobalVars.NullString,
       applicant: params.get("applicant") || GlobalVars.NullString,
+      application_type: params.get("application_type") || GlobalVars.NullString,
       response: params.get("response") || GlobalVars.NullString,
       income_number: params.get("income_number") || GlobalVars.NullString,
       region: params.get("region") || GlobalVars.NullString,
@@ -116,8 +118,10 @@ export const Requests: FC = () => {
       GlobalVars.FirstPage
     }&pageSize=${pageSize}&operators=${
       values.operators || GlobalVars.NullString
-    }&applicant=${
+    }&status=${values.status || GlobalVars.NullString}&applicant=${
       values.applicant || GlobalVars.NullString
+    }&application_type=${
+      values.application_type || GlobalVars.NullString
     }&applicant_birthday=${
       values.applicant_birthday || GlobalVars.NullString
     }&phone=${values.phone || GlobalVars.NullString}&response=${
@@ -139,9 +143,9 @@ export const Requests: FC = () => {
     router.push(
       `?page=${page}&pageSize=${pageSize}&operators=${params.get(
         "operators"
-      )}&applicant=${
+      )}&status=${params.get("status")}&applicant=${
         params.get("applicant") || GlobalVars.NullString
-      }&applicant_birthday=${
+      }&application_type=${params.get("application_type")}&applicant_birthday=${
         params.get("applicant_birthday") || GlobalVars.NullString
       }&phone=${
         params.get("phone") || GlobalVars.NullString
@@ -162,9 +166,9 @@ export const Requests: FC = () => {
     router.push(
       `?page=1&pageSize=${pageSize}&operators=${params.get(
         "operators"
-      )}&applicant=${
+      )}&status=${params.get("status")}&applicant=${
         params.get("applicant") || GlobalVars.NullString
-      }&applicant_birthday=${
+      }&application_type=${params.get("application_type")}&applicant_birthday=${
         params.get("applicant_birthday") || GlobalVars.NullString
       }&phone=${
         params.get("phone") || GlobalVars.NullString

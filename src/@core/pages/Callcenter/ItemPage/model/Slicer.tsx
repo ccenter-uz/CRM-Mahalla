@@ -3,23 +3,35 @@ import { create } from "zustand";
 
 const useItemPageSlicer = create((set) => ({
   data: [],
+  loading: true,
+
+  // SETTERS
+  setLoading: (value: boolean) => {
+    set({
+      loading: value,
+    });
+  },
   getData: async (id: string) => {
     const res = await api.get(`/organization/one/${id}`);
 
     set({
       data: res.data,
     });
+    set({ loading: false });
 
     return res.data;
   },
 }));
 
 export const useItemPage = () => {
-  const data = useItemPageSlicer((state: any) => state.data);
-  const getData = useItemPageSlicer((state: any) => state.getData);
+  const { data, getData, loading, setLoading } = useItemPageSlicer(
+    (state: any) => state
+  );
 
   return {
     data,
     getData,
+    loading,
+    setLoading,
   };
 };

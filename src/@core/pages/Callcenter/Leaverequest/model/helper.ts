@@ -76,6 +76,14 @@ export const applicationTypeList = [
     id: 3,
     label: "Шикоят",
   },
+  {
+    id: 4,
+    label: "Маълумот бериш",
+  },
+  {
+    id: 5,
+    label: "Бошқа масалалар",
+  },
 ];
 export const resend_applicationList = [
   {
@@ -88,9 +96,9 @@ export const resend_applicationList = [
   },
 ];
 export const responseList = [
-    {
-    id:0,
-    label:"Тегишлилиги бўйича жўнатилган"
+  {
+    id: 0,
+    label: "Тегишлилиги бўйича жўнатилган",
   },
   {
     id: 1,
@@ -107,5 +115,24 @@ export const responseList = [
   {
     id: 4,
     label: "Аноним",
+  },
+];
+
+export const statusList = [
+  {
+    id: "Янги",
+    label: "Янги",
+  },
+  {
+    id: "Кўриб чиқиш жараёнида",
+    label: "Кўриб чиқиш жараёнида",
+  },
+  {
+    id: "Кўриб чиқиш жараёни чўздирилган",
+    label: "Кўриб чиқиш жараёни чўздирилган",
+  },
+  {
+    id: "Кўриб чиқилган",
+    label: "Кўриб чиқилган",
   },
 ];
