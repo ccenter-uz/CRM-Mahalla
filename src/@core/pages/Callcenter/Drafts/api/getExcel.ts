@@ -6,12 +6,13 @@ export const getcallcenterforExcel = async (columns: any, data: any) => {
   try {
     const exceptions = ["mfy", "gender", "applicant_birthday"];
     const headers = columns
-      .filter(
-        (col: any) => col.title !== "" && !exceptions.includes(col.dataIndex)
-      )
-      .map((col: any) => col.title);
-
-
+    .filter(
+      (col: any) => col.title !== "" && !exceptions.includes(col.dataIndex)
+    )
+    .map((col: any) => col.title);
+    
+    
+    // worksheetData changed
       const worksheetData = [
         headers,
         ...data.map((item: any) => [
