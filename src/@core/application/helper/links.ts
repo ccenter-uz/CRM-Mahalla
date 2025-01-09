@@ -72,6 +72,12 @@ export const adminlinks = [
         href: "/control/orgs",
         icon: Minus,
       },
+      {
+        id: 45,
+        title: "Ижрочилар",
+        href: "/control/executors",
+        icon: Minus,
+      },
     ],
   },
 ];
