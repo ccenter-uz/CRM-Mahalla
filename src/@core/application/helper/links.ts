@@ -124,3 +124,39 @@ export const userlinks = [
     ],
   },
 ];
+export const executorlinks = [
+  {
+    id: 0,
+    title: "Дашборд",
+    href: "/dashboard",
+    icon: Database,
+  },
+  {
+    id: 1,
+    title: "Колл-центр",
+    href: "#",
+    icon: PhoneCall,
+    subMenu: [
+      {
+        id: 12,
+        title: "Мурожаатлар базаси",
+        href: "/callcenter/requests",
+        icon: Minus,
+      },
+    ],
+  },
+  {
+    id: 3,
+    title: "Қораламалар",
+    href: "#",
+    icon: File,
+    subMenu: [
+      {
+        id: 31,
+        title: "Колл-центр",
+        href: "/callcenter/drafts",
+        icon: Minus,
+      },
+    ],
+  },
+];
