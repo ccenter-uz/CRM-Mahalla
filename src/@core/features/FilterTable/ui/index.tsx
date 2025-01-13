@@ -5,14 +5,13 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Select,
   SimpleGrid,
 } from "@chakra-ui/react";
 import { Controller, useForm } from "react-hook-form";
 import { buttonStyle, inputStyle, labelStyle } from "../model/helper";
 import { useGlobal } from "@/@core/application/store/global";
 import { useRouter, useSearchParams } from "next/navigation";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import {
   applicationTypeList,
   responseList,
@@ -21,6 +20,7 @@ import {
 import AutocompleteSelect from "@/@core/shared/ui/Autocomplete";
 import InputMask from "react-input-mask";
 import { GlobalVars } from "@/@core/shared/vars";
+import Cookies from 'js-cookie';
 
 type Props = {
   handleFinish: (data: any) => void;
@@ -44,7 +44,14 @@ export const FilterTable: FC<Props> = (props) => {
   } = useGlobal();
   const { handleSubmit, register, reset, control } = useForm();
   const router = useRouter();
+  const [role, setRole] = useState<string>("")
 
+  // DEFINE ROLE OF USER
+  useEffect(() => {
+    const storedRole = Cookies.get("role") ?? "";
+    setRole(storedRole)
+  }, [])
+  
   // CLEAR
   const handleClear = async () => {
     setPodrazdel([]);
@@ -184,23 +191,28 @@ export const FilterTable: FC<Props> = (props) => {
             ]}
           />
         </FormControl>
-        <FormControl>
-          <FormLabel htmlFor="region" sx={labelStyle}>
-            Вилоят:
-          </FormLabel>
-          <AutocompleteSelect
-            name="region"
-            control={control}
-            options={[
-              { value: GlobalVars.NullString, label: "Барчаси" },
-              ...regions?.map((region: any) => ({
-                value: region.id,
-                label: region.title[0].toUpperCase() + region.title.slice(1),
-              })),
-            ]}
+        {
+          role === "executor"
+          ? null 
+          : <FormControl>
+              <FormLabel htmlFor="region" sx={labelStyle}>
+                Вилоят:
+                </FormLabel>
+                <AutocompleteSelect
+                name="region"
+                control={control}
+                options={[
+                  { value: GlobalVars.NullString, label: "Барчаси" },
+                   ...regions?.map((region: any) => ({
+                  value: region.id,
+                  label: region.title[0].toUpperCase() + region.title.slice(1),
+                })),
+              ]}
             onChange={handleChangeRegion}
           />
-        </FormControl>
+        </FormControl> 
+        }
+        
         <FormControl>
           <FormLabel htmlFor="district" sx={labelStyle}>
             Туман:

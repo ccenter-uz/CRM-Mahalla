@@ -5,6 +5,10 @@ import { scssVariables } from "../utils/vars";
 import dayjs from "dayjs";
 import { GlobalVars } from "@/@core/shared/vars";
 import { IMG_URL } from "../utils/api";
+import Cookies from 'js-cookie';
+
+
+const role = Cookies.get("role")
 
 const checkStatusApp: { [key: string]: string } = {
   Янги: "#68D391",
@@ -20,7 +24,9 @@ export const callcenterColumns = [
     dataIndex: "index",
     width: 50,
     align: "center",
-  },
+  }, 
+  role !== "executor"
+  ? 
   {
     title: "",
     dataIndex: "change",
@@ -35,7 +41,9 @@ export const callcenterColumns = [
         </Tooltip>
       </Link>
     ),
-  },
+  }
+  : 
+  {},
   {
     title: "Жавоб хати",
     dataIndex: "response_file",
